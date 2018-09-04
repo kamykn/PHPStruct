@@ -4,6 +4,7 @@ namespace StructTest;
 
 use PHPUnit\Framework\TestCase;
 use StructTest\SampleStruct;
+use StructTest\SampleMethodStruct;
 
 /**
  * Class CollectionTest
@@ -24,7 +25,6 @@ class StructTest extends TestCase
 			$sampleStruct->typeInt = 'string';
 		} catch (\Exception $e) {
 			$msg = 'Trying to set a different type. Property "typeInt" is [integer] type.';
-			echo $e->getMessage();
 			$this->assertEquals($msg, $e->getMessage());
 		}
 	}
@@ -211,5 +211,19 @@ class StructTest extends TestCase
 		// substitution
 		$sampleStruct->typeAny = new \DateTime('2018-01-01 11:22:33');
 		$this->assertEquals('2018-01-01 11:22:33', $sampleStruct->typeAny->format('Y-m-d H:i:s'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function testSetMethod()
+	{
+		$sampleStruct = new SampleMethodStruct([
+			'typeInt' => 1,
+		]);
+		$this->assertEquals(1, $sampleStruct->typeInt);
+
+		$sampleStruct->setTypeInt(2);
+		$this->assertEquals(2, $sampleStruct->typeInt);
 	}
 }
