@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Structs;
+namespace Struct;
 
 /**
  * [Struct]
@@ -89,6 +89,7 @@ class Struct
 
 	/**
 	 * キーの存在と型のチェックを考慮したProperty更新
+	 * Property update considering the existence of keys and type check.
 	 *
 	 * @param string $key
 	 * @param mix $key
@@ -109,6 +110,7 @@ class Struct
 	}
 
 	/**
+	 * Structをもとに配列を返却
 	 * Struct to array
 	 * @return array
 	 */

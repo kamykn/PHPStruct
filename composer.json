@@ -1,0 +1,22 @@
+{
+    "name": "kamykn/phpstruct",
+    "description": "A struct like Rust and Golang.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kamykn",
+            "email": "to.kmszk@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+	"require-dev": {
+        "phpunit/phpunit": "6.3.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
+}
