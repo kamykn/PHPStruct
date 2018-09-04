@@ -66,7 +66,7 @@ class Struct
 		}
 
 		foreach ($args as $propertyName => $propertyValue) {
-			$this->setStrict($propertyName, $propertyValue);
+			$this->set($propertyName, $propertyValue);
 		}
 	}
 
@@ -76,7 +76,7 @@ class Struct
 	 */
 	public function __set($key, $value)
 	{
-		$this->setStrict($key, $value);
+		$this->set($key, $value);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Struct
 	 * @param string $key
 	 * @param mix $key
 	 */
-	private function setStrict($key, $value)
+	protected function set($key, $value)
 	{
 		if (!property_exists($this, $key)) {
 			throw new \Exception('Property "' . $key . '" does not exist on type ' . get_class($this) . '.');
