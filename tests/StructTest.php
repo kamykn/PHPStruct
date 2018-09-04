@@ -3,7 +3,7 @@
 namespace StructTest;
 
 use PHPUnit\Framework\TestCase;
-use Struct\Struct;
+use StructTest\SampleStruct;
 
 /**
  * Class CollectionTest
@@ -11,43 +11,205 @@ use Struct\Struct;
  */
 class StructTest extends TestCase
 {
-
-	// Structのテスト用インスタンス
-	private $user;
-
-	public function setUp()
+	/**
+	 * @test
+	 */
+	public function testWrongType()
 	{
-		$this->user = new User([
-			'userId'      => 10,
-			'accountName' => 'jon',
+		$sampleStruct = new SampleStruct([
+			'typeInt' => 10,
 		]);
+
+		try {
+			$sampleStruct->typeInt = 'string';
+		} catch (\Exception $e) {
+			$msg = 'Trying to set a different type. Property "typeInt" is [integer] type.';
+			echo $e->getMessage();
+			$this->assertEquals($msg, $e->getMessage());
+		}
 	}
 
 	/**
 	 * @test
 	 */
-	public function structTest()
+	public function testInt()
 	{
-		$this->user->accountName = 'bob';
-		$this->assertEquals('bob', $this->user->accountName);
+		$sampleStruct = new SampleStruct([
+			'typeInt' => 10,
+		]);
+		$this->assertEquals(10, $sampleStruct->typeInt);
 
-		// $this->user->accountName = 12345;   // #=> Uncaught Exception: Trying to set a different type.
-		$this->user->accountName = '12345';
-		$this->assertEquals($this->user->accountName, '12345');
+		$sampleStruct->typeInt = 1;
+		$this->assertEquals(1, $sampleStruct->typeInt);
 
-		// Anyプロパティは今までのpropertyと同じでなんでも入れられる
-		$this->user->free = 'john';
-		$this->assertEquals('john', $this->user->free);
+		$sampleStruct->typeInt = -123;
+		$this->assertEquals(-123, $sampleStruct->typeInt);
 
-		$this->user->free = 12345;
-		$this->assertEquals('12345', $this->user->free);
+		$sampleStruct->typeInt = 0123; // 8進数
+		$this->assertEquals(0123, $sampleStruct->typeInt);
+
+		$sampleStruct->typeInt = 0x1A; // 16進数
+		$this->assertEquals(0x1A, $sampleStruct->typeInt);
+
+		$sampleStruct->typeInt = 0b11111111; // 2進数
+		$this->assertEquals(0b11111111, $sampleStruct->typeInt);
+	}
+
+	/**
+	 * @test
+	 */
+	public function testString()
+	{
+		$sampleStruct = new SampleStruct([
+			'typeString' => 'string',
+		]);
+		$this->assertEquals('string', $sampleStruct->typeString);
+
+		$sampleStruct->typeString = 'Hello World.';
+		$this->assertEquals('Hello World.', $sampleStruct->typeString);
+
+		$sampleStruct->typeString = '';
+		$this->assertEquals('', $sampleStruct->typeString);
+
+		$sampleStruct->typeString = '1234';
+		$this->assertEquals('1234', $sampleStruct->typeString);
+	}
+
+	/**
+	 * @test
+	 */
+	public function testBool()
+	{
+		$sampleStruct = new SampleStruct([
+			'typeBool' => true,
+		]);
+		$this->assertEquals(true, $sampleStruct->typeBool);
+
+		$sampleStruct->typeBool = false;
+		$this->assertEquals(false, $sampleStruct->typeBool);
+	}
+
+	/**
+	 * @test
+	 */
+	public function testFloat()
+	{
+		$sampleStruct = new SampleStruct([
+			'typeFloat' => 0.12,
+		]);
+		$this->assertEquals(0.12, $sampleStruct->typeFloat);
+
+		$sampleStruct->typeFloat = 1.2345;
+		$this->assertEquals(1.2345, $sampleStruct->typeFloat);
+
+		$sampleStruct->typeFloat = 6.88713E+009; // 指数形式
+		$this->assertEquals(6.88713E+009, $sampleStruct->typeFloat);
+	}
+
+	/**
+	 * @test
+	 */
+	public function testArray()
+	{
+		$sampleStruct = new SampleStruct([
+			'typeArray' => [1, 2, 3, 4, 5],
+		]);
+		$this->assertEquals([1, 2, 3, 4, 5], $sampleStruct->typeArray);
+
+		$sampleStruct->typeArray = [];
+		$this->assertEquals([], $sampleStruct->typeArray);
+
+		$sampleStruct->typeArray = ['a' => 'apple', 'b' => 'banana'];
+		$this->assertEquals(['a' => 'apple', 'b' => 'banana'], $sampleStruct->typeArray);
+	}
+
+	/**
+	 * @test
+	 */
+	public function testAny()
+	{
+		/**
+		 * int
+		 */
+
+		// instantiate
+		$sampleStruct = new SampleStruct([
+			'typeAny' => 10,
+		]);
+		$this->assertEquals(10, $sampleStruct->typeAny);
+
+		// substitution
+		$sampleStruct->typeAny = 1;
+		$this->assertEquals(1, $sampleStruct->typeAny);
+
+		/**
+		 * string
+		 */
+
+		// instantiate
+		$sampleStruct = new SampleStruct([
+			'typeAny' => 'string',
+		]);
+		$this->assertEquals('string', $sampleStruct->typeAny);
+
+		// substitution
+		$sampleStruct->typeAny = 'Hello World.';
+		$this->assertEquals('Hello World.', $sampleStruct->typeAny);
+
+		/**
+		 * bool
+		 */
+
+		// instantiate
+		$sampleStruct = new SampleStruct([
+			'typeAny' => true,
+		]);
+		$this->assertEquals(true, $sampleStruct->typeAny);
+
+		// substitution
+		$sampleStruct->typeAny = false;
+		$this->assertEquals(false, $sampleStruct->typeAny);
+
+		/**
+		 * float
+		 */
+
+		// instantiate
+		$sampleStruct = new SampleStruct([
+			'typeAny' => 0.12,
+		]);
+		$this->assertEquals(0.12, $sampleStruct->typeAny);
+
+		// substitution
+		$sampleStruct->typeAny = 1.2345;
+		$this->assertEquals(1.2345, $sampleStruct->typeAny);
+
+		/**
+		 * array
+		 */
+
+		// instantiate
+		$sampleStruct = new SampleStruct([
+			'typeAny' => [1, 2, 3, 4, 5],
+		]);
+		$this->assertEquals([1, 2, 3, 4, 5], $sampleStruct->typeAny);
+
+		// substitution
+		$sampleStruct->typeAny = [];
+		$this->assertEquals([], $sampleStruct->typeAny);
+
+		/**
+		 * object
+		 */
+
+		// instantiate
+		$sampleStruct = new SampleStruct([
+			'typeAny' => new \DateTime('2018-09-05 11:22:33'),
+		]);
+		$this->assertEquals('2018-09-05 11:22:33', $sampleStruct->typeAny->format('Y-m-d H:i:s'));
+
+		// substitution
+		$sampleStruct->typeAny = new \DateTime('2018-01-01 11:22:33');
+		$this->assertEquals('2018-01-01 11:22:33', $sampleStruct->typeAny->format('Y-m-d H:i:s'));
 	}
 }
-
-class User extends Struct
-{
-	protected $userId      = Struct::TYPE_INT;    // This is int.
-	protected $accountName = Struct::TYPE_STRING; // This is string.
-	protected $free        = Struct::TYPE_ANY;    // This is "any" type.
-}
-
