@@ -53,6 +53,7 @@ class Struct
 	const TYPE_ANY    = null;
 
 	private $anyTypeProperties = [];
+	private $protectedProperties = [];
 
 	/**
 	 * @param array $args
@@ -67,6 +68,7 @@ class Struct
 
 		foreach ($args as $propertyName => $propertyValue) {
 			$this->set($propertyName, $propertyValue);
+			unset($this->{$propertyName});
 		}
 	}
 
@@ -84,7 +86,7 @@ class Struct
 	 */
 	public function __get($key)
 	{
-		return $this->{$key};
+		return $this->protectedProperties[$key];
 	}
 
 	/**
@@ -106,7 +108,7 @@ class Struct
 			throw new \Exception('Trying to set a different type. Property "' . $key . '" is [' . gettype($this->{$key}) . '] type.');
 		}
 
-		$this->{$key} = $value;
+		$this->protectedProperties[$key] = $value;
 	}
 
 	/**
