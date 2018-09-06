@@ -58,17 +58,24 @@ class Struct
 	/**
 	 * @param array $args
 	 */
-	public function __construct(array $args)
+	public function __construct(array $args = [])
 	{
 		foreach (get_object_vars($this) as $propertyName => $propertyValue) {
+			if (in_array($propertyName, ['protectedProperties', 'anyTypeProperties'])) {
+				continue;
+			}
+
 			if (is_null($propertyValue)) {
 				$this->anyTypeProperties[] = $propertyName;
 			}
+
+			$this->protectedProperties[$propertyName] = $propertyValue;
+			unset($this->{$propertyName});
 		}
 
 		foreach ($args as $propertyName => $propertyValue) {
-			$this->set($propertyName, $propertyValue);
-			unset($this->{$propertyName});
+			// Calling __set() method
+			$this->{$propertyName} = $propertyValue;
 		}
 	}
 
