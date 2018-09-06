@@ -21,12 +21,14 @@ class StructTest extends TestCase
 			'typeInt' => 10,
 		]);
 
+		$e = null;
 		try {
 			$sampleStruct->typeInt = 'string';
 		} catch (\Exception $e) {
-			$msg = 'Trying to set a different type. Property "typeInt" is [integer] type.';
-			$this->assertEquals($msg, $e->getMessage());
 		}
+		$msg = 'Trying to set a different type. Property "typeInt" is [integer] type.';
+		$this->assertInstanceOf('\Exception', $e);
+		$this->assertEquals($msg, $e->getMessage());
 	}
 
 	/**
@@ -37,22 +39,22 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeInt' => 10,
 		]);
-		$this->assertEquals(10, $sampleStruct->typeInt);
+		$this->assertSame(10, $sampleStruct->typeInt);
 
 		$sampleStruct->typeInt = 1;
-		$this->assertEquals(1, $sampleStruct->typeInt);
+		$this->assertSame(1, $sampleStruct->typeInt);
 
 		$sampleStruct->typeInt = -123;
-		$this->assertEquals(-123, $sampleStruct->typeInt);
+		$this->assertSame(-123, $sampleStruct->typeInt);
 
 		$sampleStruct->typeInt = 0123; // 8進数
-		$this->assertEquals(0123, $sampleStruct->typeInt);
+		$this->assertSame(0123, $sampleStruct->typeInt);
 
 		$sampleStruct->typeInt = 0x1A; // 16進数
-		$this->assertEquals(0x1A, $sampleStruct->typeInt);
+		$this->assertSame(0x1A, $sampleStruct->typeInt);
 
 		$sampleStruct->typeInt = 0b11111111; // 2進数
-		$this->assertEquals(0b11111111, $sampleStruct->typeInt);
+		$this->assertSame(0b11111111, $sampleStruct->typeInt);
 	}
 
 	/**
@@ -63,16 +65,16 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeString' => 'string',
 		]);
-		$this->assertEquals('string', $sampleStruct->typeString);
+		$this->assertSame('string', $sampleStruct->typeString);
 
 		$sampleStruct->typeString = 'Hello World.';
-		$this->assertEquals('Hello World.', $sampleStruct->typeString);
+		$this->assertSame('Hello World.', $sampleStruct->typeString);
 
 		$sampleStruct->typeString = '';
-		$this->assertEquals('', $sampleStruct->typeString);
+		$this->assertSame('', $sampleStruct->typeString);
 
 		$sampleStruct->typeString = '1234';
-		$this->assertEquals('1234', $sampleStruct->typeString);
+		$this->assertSame('1234', $sampleStruct->typeString);
 	}
 
 	/**
@@ -83,10 +85,10 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeBool' => true,
 		]);
-		$this->assertEquals(true, $sampleStruct->typeBool);
+		$this->assertSame(true, $sampleStruct->typeBool);
 
 		$sampleStruct->typeBool = false;
-		$this->assertEquals(false, $sampleStruct->typeBool);
+		$this->assertSame(false, $sampleStruct->typeBool);
 	}
 
 	/**
@@ -97,13 +99,13 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeFloat' => 0.12,
 		]);
-		$this->assertEquals(0.12, $sampleStruct->typeFloat);
+		$this->assertSame(0.12, $sampleStruct->typeFloat);
 
 		$sampleStruct->typeFloat = 1.2345;
-		$this->assertEquals(1.2345, $sampleStruct->typeFloat);
+		$this->assertSame(1.2345, $sampleStruct->typeFloat);
 
 		$sampleStruct->typeFloat = 6.88713E+009; // 指数形式
-		$this->assertEquals(6.88713E+009, $sampleStruct->typeFloat);
+		$this->assertSame(6.88713E+009, $sampleStruct->typeFloat);
 	}
 
 	/**
@@ -114,13 +116,13 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeArray' => [1, 2, 3, 4, 5],
 		]);
-		$this->assertEquals([1, 2, 3, 4, 5], $sampleStruct->typeArray);
+		$this->assertSame([1, 2, 3, 4, 5], $sampleStruct->typeArray);
 
 		$sampleStruct->typeArray = [];
-		$this->assertEquals([], $sampleStruct->typeArray);
+		$this->assertEmpty($sampleStruct->typeArray);
 
 		$sampleStruct->typeArray = ['a' => 'apple', 'b' => 'banana'];
-		$this->assertEquals(['a' => 'apple', 'b' => 'banana'], $sampleStruct->typeArray);
+		$this->assertSame(['a' => 'apple', 'b' => 'banana'], $sampleStruct->typeArray);
 	}
 
 	/**
@@ -136,11 +138,11 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeAny' => 10,
 		]);
-		$this->assertEquals(10, $sampleStruct->typeAny);
+		$this->assertSame(10, $sampleStruct->typeAny);
 
 		// substitution
 		$sampleStruct->typeAny = 1;
-		$this->assertEquals(1, $sampleStruct->typeAny);
+		$this->assertSame(1, $sampleStruct->typeAny);
 
 		/**
 		 * string
@@ -150,11 +152,11 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeAny' => 'string',
 		]);
-		$this->assertEquals('string', $sampleStruct->typeAny);
+		$this->assertSame('string', $sampleStruct->typeAny);
 
 		// substitution
 		$sampleStruct->typeAny = 'Hello World.';
-		$this->assertEquals('Hello World.', $sampleStruct->typeAny);
+		$this->assertSame('Hello World.', $sampleStruct->typeAny);
 
 		/**
 		 * bool
@@ -164,11 +166,11 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeAny' => true,
 		]);
-		$this->assertEquals(true, $sampleStruct->typeAny);
+		$this->assertTrue($sampleStruct->typeAny);
 
 		// substitution
 		$sampleStruct->typeAny = false;
-		$this->assertEquals(false, $sampleStruct->typeAny);
+		$this->assertFalse($sampleStruct->typeAny);
 
 		/**
 		 * float
@@ -178,11 +180,11 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeAny' => 0.12,
 		]);
-		$this->assertEquals(0.12, $sampleStruct->typeAny);
+		$this->assertSame(0.12, $sampleStruct->typeAny);
 
 		// substitution
 		$sampleStruct->typeAny = 1.2345;
-		$this->assertEquals(1.2345, $sampleStruct->typeAny);
+		$this->assertSame(1.2345, $sampleStruct->typeAny);
 
 		/**
 		 * array
@@ -192,11 +194,11 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleStruct([
 			'typeAny' => [1, 2, 3, 4, 5],
 		]);
-		$this->assertEquals([1, 2, 3, 4, 5], $sampleStruct->typeAny);
+		$this->assertSame([1, 2, 3, 4, 5], $sampleStruct->typeAny);
 
 		// substitution
 		$sampleStruct->typeAny = [];
-		$this->assertEquals([], $sampleStruct->typeAny);
+		$this->assertEmpty([], $sampleStruct->typeAny);
 
 		/**
 		 * object
@@ -221,9 +223,9 @@ class StructTest extends TestCase
 		$sampleStruct = new SampleMethodStruct([
 			'typeInt' => 1,
 		]);
-		$this->assertEquals(1, $sampleStruct->typeInt);
+		$this->assertSame(1, $sampleStruct->typeInt);
 
 		$sampleStruct->setTypeInt(2);
-		$this->assertEquals(2, $sampleStruct->typeInt);
+		$this->assertSame(2, $sampleStruct->typeInt);
 	}
 }
