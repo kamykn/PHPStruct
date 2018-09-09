@@ -6,10 +6,10 @@ use Struct\Struct;
 
 class SampleMethodStruct extends Struct
 {
-	protected $typeInt = Struct::TYPE_INT;
+	public $typeInt = Struct::TYPE_INT;
 
 	public function setTypeInt($int)
 	{
-		$this->set('typeInt', $int);
+		$this->typeInt = $int;
 	}
 }

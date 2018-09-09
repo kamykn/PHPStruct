@@ -7,40 +7,6 @@ namespace Struct;
  *
  * GolangやRustに近いstructのような型定義の実装を意識したクラス
  *
- * Usage:
- *
- * class User extends Struct
- * {
- *     protected $userId      = Struct::INT;    // This is int.
- *     protected $accountName = Struct::STRING; // This is string.
- *     protected $free        = Struct::ANY;    // This is "any" type.
- * }
- *
- * $user = New User([
- *     'userId'      => 10,
- *     'accountName' => 'jon',
- * ]);
- *
- * $user->accountName = 'bob';
- * echo $user->accountName; // #=> bob
- *
- * $user->accountName = 12345;   // #=> Uncaught Exception: Trying to set a different type.
- * $user->accountName = '12345';
- * echo $user->accountName; // #=> 12345
- *
- * // Anyプロパティは今までのpropertyと同じでなんでも入れられる
- * $user->free = 'colopl';
- * echo $user->free;
- * $user->free = 12345;
- * echo $user->free;
- *
- * // 初期値を決める場合はそのまま値を入れる
- * class User extends Struct
- * {
- *     protected $userId = 0;       // This is int.
- *     protected $accountName = ''; // This is string.
- *     protected $free;             // NULL is for "any" type.
- * }
  */
 class Struct
 {

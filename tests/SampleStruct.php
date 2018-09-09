@@ -6,10 +6,10 @@ use Struct\Struct;
 
 class SampleStruct extends Struct
 {
-	protected $typeInt    = Struct::TYPE_INT;
-	protected $typeString = Struct::TYPE_STRING;
-	protected $typeBool   = Struct::TYPE_BOOL;
-	protected $typeFloat  = Struct::TYPE_FLOAT;
-	protected $typeArray  = Struct::TYPE_ARRAY;
-	protected $typeAny    = Struct::TYPE_ANY;
+	public $typeInt = Struct::TYPE_INT;
+	public $typeString = Struct::TYPE_STRING;
+	public $typeBool = Struct::TYPE_BOOL;
+	public $typeFloat = Struct::TYPE_FLOAT;
+	public $typeArray = Struct::TYPE_ARRAY;
+	public $typeAny = Struct::TYPE_ANY;
 }
