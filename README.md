@@ -60,4 +60,13 @@ class User extends Struct
 }
 ```
 
+# ArrayAbjectを使えば配列形式だけど、getとsetに全てフックできるかもしれない。
+https://qiita.com/metheglin/items/62d8fa527b6b08099d3b
+https://qiita.com/metheglin/items/87e25bbdf37fbe0cd6e2
+
+testに添字アクセスを追加
+なんか、オブジェクトも添え字でアクセスできるって書いてある
+http://www.php.net/manual/ja/sdo.sample.getset.php
+あれ、てことはArrayAbjectを使えば配列形式だけどアロー演算子でアクセスできる？
+
 

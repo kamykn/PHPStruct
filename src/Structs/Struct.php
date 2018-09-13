@@ -8,7 +8,7 @@ namespace Struct;
  * GolangやRustに近いstructのような型定義の実装を意識したクラス
  *
  */
-class Struct
+class Struct implements \ArrayAccess
 {
 	// Types
 	const TYPE_INT    = 0;
@@ -41,8 +41,28 @@ class Struct
 
 		foreach ($args as $propertyName => $propertyValue) {
 			// Calling __set() method
-			$this->{$propertyName} = $propertyValue;
+			$this[$propertyName] = $propertyValue;
 		}
+	}
+
+	public function offsetGet($index)
+	{
+		return $this->protectedProperties[$index];
+	}
+
+	public function offsetExists($index)
+	{
+		return isset($this->protectedProperties[$index]);
+	}
+
+	public function offsetSet($index, $value)
+	{
+		$this->set($index, $value);
+	}
+
+	public function offsetUnset($index)
+	{
+		unset($this->protectedProperties[$index]);
 	}
 
 	/**
@@ -51,7 +71,7 @@ class Struct
 	 */
 	public function __set($key, $value)
 	{
-		$this->set($key, $value);
+		throw new \Exception('メンバーへのアクセスは利用できません');
 	}
 
 	/**
@@ -59,7 +79,7 @@ class Struct
 	 */
 	public function __get($key)
 	{
-		return $this->protectedProperties[$key];
+		throw new \Exception('メンバーへのアクセスは利用できません');
 	}
 
 	/**
@@ -76,9 +96,9 @@ class Struct
 		}
 
 		if (!in_array($key, $this->anyTypeProperties) &&
-			gettype($this->{$key}) !== gettype($value)
+			gettype($this[$key]) !== gettype($value)
 		) {
-			throw new \Exception('Trying to set a different type. Property "' . $key . '" is [' . gettype($this->{$key}) . '] type.');
+			throw new \Exception('Trying to set a different type. Property "' . $key . '" is [' . gettype($this[$key]) . '] type.');
 		}
 
 		$this->protectedProperties[$key] = $value;
