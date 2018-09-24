@@ -46,7 +46,7 @@ $user->accountName = '12345';
 echo $user->accountName; // #=> 12345
 
 // Anyプロパティは今までのpropertyと同じでなんでも入れられる
-$user->free = 'colopl';
+$user->free = 'kamykn';
 echo $user->free;
 $user->free = 12345;
 echo $user->free;
